@@ -2,7 +2,6 @@ import React from 'react';
 
 const AuthModalManager = ({ activeModal, setActiveModal }) => {
   const openLogin = () => setActiveModal('login');
-  const openSignup = () => setActiveModal('signup');
 
   return (
     <button

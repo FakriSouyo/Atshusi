@@ -1,11 +1,13 @@
-// components/Navbar.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-scroll';
+import { Link, useLocation } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 import AuthModalManager from './AuthModalManager';
 
 const Navbar = ({ activeModal, setActiveModal }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -29,24 +31,42 @@ const Navbar = ({ activeModal, setActiveModal }) => {
 
   const NavLinks = () => (
     <>
-      <Link to="home" smooth={true} duration={500} className="hover:underline cursor-pointer">
-        Beranda
-      </Link>
-      <Link to="menu" smooth={true} duration={500} className="hover:underline cursor-pointer">
-        Menu
-      </Link>
-      <Link to="about" smooth={true} duration={500} className="hover:underline cursor-pointer">
-        Tentang
-      </Link>
-      <Link to="reservation" smooth={true} duration={500} className="hover:underline cursor-pointer">
+      {location.pathname === '/' ? (
+        <>
+          <ScrollLink to="home" smooth={true} duration={500} className="hover:underline cursor-pointer">
+            Beranda
+          </ScrollLink>
+          <ScrollLink to="menu" smooth={true} duration={500} className="hover:underline cursor-pointer">
+            Menu
+          </ScrollLink>
+          <ScrollLink to="about" smooth={true} duration={500} className="hover:underline cursor-pointer">
+            Tentang
+          </ScrollLink>
+          <ScrollLink to="contact" smooth={true} duration={500} className="hover:underline cursor-pointer">
+            Kontak
+          </ScrollLink>
+        </>
+      ) : (
+        <>
+          <Link to="/" className="hover:underline cursor-pointer">
+            Beranda
+          </Link>
+          <Link to="/" className="hover:underline cursor-pointer">
+            Menu
+          </Link>
+          <Link to="/" className="hover:underline cursor-pointer">
+            Tentang
+          </Link>
+          <Link to="/" className="hover:underline cursor-pointer">
+            Kontak
+          </Link>
+        </>
+      )}
+      <Link to="/reservation" className="hover:underline cursor-pointer">
         Reservasi
-      </Link>
-      <Link to="contact" smooth={true} duration={500} className="hover:underline cursor-pointer">
-        Kontak
       </Link>
     </>
   );
-
   return (
     <nav className={`${isScrolled ? 'bg-primary/30 backdrop-blur-md backdrop-filter backdrop-saturate-150 border-b border-primary/20' : 'bg-primary'} text-primary-foreground py-4 px-6 md:px-10 flex items-center justify-between fixed w-full z-50 transition-all duration-300`}>
       <Link to="home" smooth={true} duration={500} className="text-2xl font-bold cursor-pointer">
