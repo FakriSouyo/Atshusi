@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -11,21 +11,23 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 
 function App() {
+  const [activeModal, setActiveModal] = useState(null);
+
   const pageVariants = {
     initial: { opacity: 0, y: 50 },
     in: { opacity: 1, y: 0 },
     out: { opacity: 0, y: -50 }
   };
 
-  const pageTransition = {
-    type: 'tween',
-    ease: 'anticipate',
-    duration: 0.5
-  };
+  const pageTransition = { type: 'tween', ease: 'anticipate', duration: 0.5 };
+
+  const openLogin = () => setActiveModal('login');
+  const openSignup = () => setActiveModal('signup');
+  const closeModal = () => setActiveModal(null);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+      <Navbar activeModal={activeModal} setActiveModal={setActiveModal} />
       <main className="flex-grow pt-16">
         <motion.div
           initial="initial"
@@ -74,8 +76,8 @@ function App() {
         </motion.div>
       </main>
       <Footer />
-      <Login />
-      <Signup />
+      <Login isOpen={activeModal === 'login'} onClose={closeModal} openSignup={openSignup} />
+      <Signup isOpen={activeModal === 'signup'} onClose={closeModal} openLogin={openLogin} />
     </div>
   );
 }
